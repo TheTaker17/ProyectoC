@@ -12,7 +12,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(0, 2, 10); // alejamos un poco la cámara para ver mejor
+camera.position.set(5, 3, 12); // alejamos un poco la cámara para ver mejor
 
 // Renderizador (pantalla completa + fondo transparente)
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -37,10 +37,10 @@ controls.enableDamping = true;
 // 🔹 Cargar modelo GLB/GLTF
 const loader = new GLTFLoader();
 loader.load(
-  "modelos/coliseo-romano.glb", 
+  "modelos/torre-eiffel.glb", 
   (gltf) => {
     const model = gltf.scene;
-    model.scale.set(0.05, 0.05, 0.05); 
+    model.scale.set(0.3, 0.3, 0.3); 
     model.position.set(0, 0, 0);
     scene.add(model);
     console.log("Modelo cargado con éxito:", model);
