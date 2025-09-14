@@ -40,8 +40,8 @@ loader.load(
   "modelos/torre-eiffel.glb", 
   (gltf) => {
     const model = gltf.scene;
-    model.scale.set(0.3, 0.3, 0.3); 
-    model.position.set(0, 0, 0);
+    model.scale.set(0.4, 0.4, 0.4); 
+    model.position.set(0, -3, 0);
     scene.add(model);
     console.log("Modelo cargado con éxito:", model);
   },
