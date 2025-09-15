@@ -49,14 +49,13 @@ const spriteMaterial = new THREE.SpriteMaterial({
   depthTest: false // siempre visible
 });
 
-// Ojo
 const hotspot = new THREE.Sprite(spriteMaterial);
 hotspot.scale.set(1.5, 1.5, 1.5);
-hotspot.position.set(8, 3, 0);
+hotspot.position.set(5, 3, 0);
 scene.add(hotspot);
 
 // Área invisible para clics
-const hitAreaGeometry = new THREE.SphereGeometry(1, 16, 16);
+const hitAreaGeometry = new THREE.SphereGeometry(1.2, 16, 16);
 const hitAreaMaterial = new THREE.MeshBasicMaterial({ visible: false });
 const hitArea = new THREE.Mesh(hitAreaGeometry, hitAreaMaterial);
 hitArea.position.copy(hotspot.position);
@@ -65,10 +64,10 @@ hitArea.position.copy(hotspot.position);
 hitArea.scale.set(hotspot.scale.x, hotspot.scale.y, hotspot.scale.x);
 scene.add(hitArea);
 
-// Añadir a la lista de objetos clickeables
+// Añadir a lista de clickeables
 clickableObjects.push(hitArea);
 
-// Hover (cursor cambia)
+// 🔹 Detectar hover en PC
 window.addEventListener("mousemove", (event) => {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -77,6 +76,34 @@ window.addEventListener("mousemove", (event) => {
   const intersects = raycaster.intersectObjects(clickableObjects);
 
   document.body.style.cursor = intersects.length > 0 ? "pointer" : "default";
+});
+
+// 🔹 Función común para clicks y toques
+function handleInteraction(x, y) {
+  mouse.x = (x / window.innerWidth) * 2 - 1;
+  mouse.y = -(y / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(clickableObjects);
+
+  if (intersects.length > 0) {
+    showPopup(
+      "Stonehenge", 
+      "Monumento megalítico en Inglaterra, construido entre el 3000 y el 2000 a.C.",
+      "img/stonehenge.jpeg"
+    );
+  }
+}
+
+// Evento click (PC)
+window.addEventListener("click", (event) => {
+  handleInteraction(event.clientX, event.clientY);
+});
+
+// Evento touch (Móviles)
+window.addEventListener("touchstart", (event) => {
+  const touch = event.touches[0];
+  handleInteraction(touch.clientX, touch.clientY);
 });
 
 // Cargar modelo GLB/GLTF
@@ -98,31 +125,7 @@ loader.load(
   }
 );
 
-// Resize responsivo
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-// Evento click para popup
-window.addEventListener("click", (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(clickableObjects);
-
-  if (intersects.length > 0) {
-    showPopup(
-      "Stonehenge", 
-      "Monumento megalítico en Inglaterra, construido entre el 3000 y el 2000 a.C.",
-      "img/stonehenge.jpeg"
-    );
-  }
-});
-
-// Funciones Popup
+// Popup
 function showPopup(title, description, img) {
   const popup = document.getElementById("popup");
   document.getElementById("popup-title").innerText = title;
@@ -139,6 +142,13 @@ function closePopup() {
   popup.classList.remove("show");
   setTimeout(() => (popup.style.display = "none"), 300);
 }
+
+// Responsivo
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 // Animación
 function animate() {
