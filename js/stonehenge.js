@@ -12,9 +12,9 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(5, 3, 12); // alejamos un poco la cámara para ver mejor
+camera.position.set(5, 3, 12);
 
-// Renderizador (pantalla completa + fondo transparente)
+// Renderizador
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setClearColor(0x000000, 0); 
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -23,47 +23,61 @@ document.body.style.margin = "0";
 document.body.appendChild(renderer.domElement);
 
 // Luces
-const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
-scene.add(hemiLight);
-
+scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 1.2));
 const dirLight = new THREE.DirectionalLight(0xffffff, 1);
 dirLight.position.set(5, 10, 7);
 scene.add(dirLight);
 
-// Controles de órbita
+// Controles
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
-// Raycaster
+// Raycaster y mouse
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-// 🔹 Hotspot como Sprite en lugar de esfera
+// Lista de objetos interactivos
+const clickableObjects = [];
+
+// Hotspot como Sprite
 const textureLoader = new THREE.TextureLoader();
-const iconTexture = textureLoader.load("img/ojo.png"); // pon tu icono PNG aquí
+const iconTexture = textureLoader.load("img/ojo.png");
 
 const spriteMaterial = new THREE.SpriteMaterial({
   map: iconTexture,
   transparent: true,
-  depthTest: false // 👈 asegura que siempre esté visible
+  depthTest: false // siempre visible
 });
 
+// Ojo
 const hotspot = new THREE.Sprite(spriteMaterial);
-hotspot.scale.set(1.5, 1.5, 1.5); // tamaño del icono
-hotspot.position.set(0, 3, 0); // posición sobre el modelo
+hotspot.scale.set(1.5, 1.5, 1.5);
+hotspot.position.set(8, 3, 0);
 scene.add(hotspot);
 
 // Área invisible para clics
-const hitAreaGeometry = new THREE.SphereGeometry(1.5, 16, 16);
+const hitAreaGeometry = new THREE.SphereGeometry(1, 16, 16);
 const hitAreaMaterial = new THREE.MeshBasicMaterial({ visible: false });
 const hitArea = new THREE.Mesh(hitAreaGeometry, hitAreaMaterial);
 hitArea.position.copy(hotspot.position);
 
-// 🔹 Relacionar tamaño del área clickeable con el sprite
+// Sincronizar tamaño con sprite
 hitArea.scale.set(hotspot.scale.x, hotspot.scale.y, hotspot.scale.x);
-
 scene.add(hitArea);
 
+// Añadir a la lista de objetos clickeables
+clickableObjects.push(hitArea);
+
+// Hover (cursor cambia)
+window.addEventListener("mousemove", (event) => {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(clickableObjects);
+
+  document.body.style.cursor = intersects.length > 0 ? "pointer" : "default";
+});
 
 // Cargar modelo GLB/GLTF
 const loader = new GLTFLoader();
@@ -71,7 +85,7 @@ loader.load(
   "modelos/stonehenge.glb", 
   (gltf) => {
     const model = gltf.scene;
-    model.scale.set(0.7, 0.7, 0.7); 
+    model.scale.set(0.7, 0.7, 0.7);
     model.position.set(0, 0, 0);
     scene.add(model);
     console.log("Modelo cargado con éxito:", model);
@@ -84,53 +98,46 @@ loader.load(
   }
 );
 
-// Ajuste dinámico al cambiar tamaño de ventana
+// Resize responsivo
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Evento click Pop Up
+// Evento click para popup
 window.addEventListener("click", (event) => {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects([hitArea]); //
+  const intersects = raycaster.intersectObjects(clickableObjects);
 
   if (intersects.length > 0) {
     showPopup(
-      "Coliseo Romano", 
-      "Construido en el siglo I en Roma, fue uno de los mayores anfiteatros del Imperio Romano.", 
+      "Stonehenge", 
+      "Monumento megalítico en Inglaterra, construido entre el 3000 y el 2000 a.C.",
       "img/stonehenge.jpeg"
     );
   }
 });
 
-// Mostrar Pop Up
+// Funciones Popup
 function showPopup(title, description, img) {
   const popup = document.getElementById("popup");
   document.getElementById("popup-title").innerText = title;
   document.getElementById("popup-desc").innerText = description;
   document.getElementById("popup-img").src = img;
 
-  // Reinicia animación
   popup.classList.remove("show");
   popup.style.display = "block";
-
-  // Delay mínimo para forzar que el navegador procese el cambio
   setTimeout(() => popup.classList.add("show"), 5);
 }
 
-// Cerrar Pop Up
 function closePopup() {
   const popup = document.getElementById("popup");
   popup.classList.remove("show");
-
-  setTimeout(() => {
-    popup.style.display = "none";
-  }, 300); // coincide con la transición
+  setTimeout(() => (popup.style.display = "none"), 300);
 }
 
 // Animación
