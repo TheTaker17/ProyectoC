@@ -53,11 +53,15 @@ hotspot.scale.set(1.5, 1.5, 1.5); // tamaño del icono
 hotspot.position.set(0, 3, 0); // posición sobre el modelo
 scene.add(hotspot);
 
-// 🔹 Área invisible más grande para clics
-const hitAreaGeometry = new THREE.SphereGeometry(2, 16, 16);
+// Área invisible para clics
+const hitAreaGeometry = new THREE.SphereGeometry(1.5, 16, 16);
 const hitAreaMaterial = new THREE.MeshBasicMaterial({ visible: false });
 const hitArea = new THREE.Mesh(hitAreaGeometry, hitAreaMaterial);
 hitArea.position.copy(hotspot.position);
+
+// 🔹 Relacionar tamaño del área clickeable con el sprite
+hitArea.scale.set(hotspot.scale.x, hotspot.scale.y, hotspot.scale.x);
+
 scene.add(hitArea);
 
 
