@@ -106,6 +106,22 @@ window.addEventListener("touchstart", (event) => {
   handleInteraction(touch.clientX, touch.clientY);
 });
 
+// ================= LOADER GLOBAL (solo modelo) =================
+
+// Contador de recursos iniciales
+let totalToLoad = 1; // solo el modelo
+let loaded = 0;
+let loaderClosed = false;
+
+function checkAllLoaded() {
+  if (loaderClosed) return;
+  loaded++;
+  if (loaded >= totalToLoad) {
+    document.getElementById("global-loader").classList.add("hidden");
+    loaderClosed = true;
+  }
+}
+
 // Cargar modelo GLB/GLTF
 const loader = new GLTFLoader();
 loader.load(
@@ -113,27 +129,31 @@ loader.load(
   (gltf) => {
     const model = gltf.scene;
     model.scale.set(0.7, 0.7, 0.7);
-    model.position.set(0, 0, 0);
     scene.add(model);
-    console.log("Modelo cargado con éxito:", model);
+    console.log("Modelo cargado");
+    checkAllLoaded(); // ✅ modelo listo
   },
   (xhr) => {
-    console.log((xhr.loaded / xhr.total * 100).toFixed(2) + "% cargado");
+    // opcional: progreso de carga
+    let percent = (xhr.loaded / xhr.total) * 100;
+    console.log(percent.toFixed(2) + "% cargado");
   },
-  (error) => {
-    console.error("Error cargando el modelo:", error);
-  }
+  (error) => console.error("Error cargando el modelo:", error)
 );
 
 // Popup
 function showPopup(title, description, img) {
   const popup = document.getElementById("popup");
+  const popupImg = document.getElementById("popup-img");
+
   document.getElementById("popup-title").innerText = title;
   document.getElementById("popup-desc").innerText = description;
-  document.getElementById("popup-img").src = img;
 
   popup.classList.remove("show");
   popup.style.display = "block";
+
+  popupImg.src = img;
+
   setTimeout(() => popup.classList.add("show"), 5);
 }
 
