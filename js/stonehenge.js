@@ -46,7 +46,7 @@ const iconTexture = textureLoader.load("img/ojo.png");
 const spriteMaterial = new THREE.SpriteMaterial({
   map: iconTexture,
   transparent: true,
-  depthTest: false // siempre visible
+  depthTest: false // 👈 asegura que siempre esté visible delante
 });
 
 const hotspot = new THREE.Sprite(spriteMaterial);
@@ -54,23 +54,14 @@ hotspot.scale.set(1.5, 1.5, 1.5);
 hotspot.position.set(5, 3, 0);
 scene.add(hotspot);
 
-// Área invisible para clics
-const hitAreaGeometry = new THREE.SphereGeometry(1.2, 16, 16);
-const hitAreaMaterial = new THREE.MeshBasicMaterial({ visible: false });
-const hitArea = new THREE.Mesh(hitAreaGeometry, hitAreaMaterial);
-hitArea.position.copy(hotspot.position);
-
-// Sincronizar tamaño con sprite
-hitArea.scale.set(hotspot.scale.x, hotspot.scale.y, hotspot.scale.x);
-scene.add(hitArea);
-
-// Añadir a lista de clickeables
-clickableObjects.push(hitArea);
+// Añadimos el sprite a la lista de clickeables
+clickableObjects.push(hotspot);
 
 // 🔹 Detectar hover en PC
 window.addEventListener("mousemove", (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  const coords = getNormalizedCoords(event.clientX, event.clientY);
+  mouse.x = coords.x;
+  mouse.y = coords.y;
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(clickableObjects);
@@ -80,8 +71,9 @@ window.addEventListener("mousemove", (event) => {
 
 // 🔹 Función común para clicks y toques
 function handleInteraction(x, y) {
-  mouse.x = (x / window.innerWidth) * 2 - 1;
-  mouse.y = -(y / window.innerHeight) * 2 + 1;
+  const coords = getNormalizedCoords(x, y);
+  mouse.x = coords.x;
+  mouse.y = coords.y;
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(clickableObjects);
@@ -93,6 +85,15 @@ function handleInteraction(x, y) {
       "img/stonehenge.jpeg"
     );
   }
+}
+
+// Normalizar coordenadas
+function getNormalizedCoords(x, y) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  return {
+    x: ((x - rect.left) / rect.width) * 2 - 1,
+    y: -((y - rect.top) / rect.height) * 2 + 1
+  };
 }
 
 // Evento click (PC)
@@ -107,9 +108,7 @@ window.addEventListener("touchstart", (event) => {
 });
 
 // ================= LOADER GLOBAL (solo modelo) =================
-
-// Contador de recursos iniciales
-let totalToLoad = 1; // solo el modelo
+let totalToLoad = 1; 
 let loaded = 0;
 let loaderClosed = false;
 
@@ -131,17 +130,16 @@ loader.load(
     model.scale.set(0.7, 0.7, 0.7);
     scene.add(model);
     console.log("Modelo cargado");
-    checkAllLoaded(); // ✅ modelo listo
+    checkAllLoaded();
   },
   (xhr) => {
-    // opcional: progreso de carga
     let percent = (xhr.loaded / xhr.total) * 100;
     console.log(percent.toFixed(2) + "% cargado");
   },
   (error) => console.error("Error cargando el modelo:", error)
 );
 
-// Popup
+// ================= POPUP =================
 function showPopup(title, description, img) {
   const popup = document.getElementById("popup");
   const popupImg = document.getElementById("popup-img");
@@ -163,7 +161,7 @@ function closePopup() {
   setTimeout(() => (popup.style.display = "none"), 300);
 }
 
-// Responsivo
+// ================= Responsivo =================
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
