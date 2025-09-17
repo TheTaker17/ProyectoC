@@ -32,11 +32,11 @@ scene.add(dirLight);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
-// Raycaster + mouse
+// Raycaster y mouse
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-// Lista de hotspots
+// Lista de hotspots clicables
 const hotspots = [];
 
 // Crear un hotspot (sprite) con datos
@@ -47,7 +47,8 @@ function createHotspot(x, y, z, title, description, img) {
   const spriteMaterial = new THREE.SpriteMaterial({
     map: iconTexture,
     transparent: true,
-    depthTest: false
+    depthTest: false,
+    alphaTest: 0.5 // 🔹 Ignora píxeles transparentes → solo área visible es clicable
   });
 
   const sprite = new THREE.Sprite(spriteMaterial);
@@ -98,9 +99,9 @@ window.addEventListener("mousemove", (event) => {
 });
 
 // Click / Touch
-function handleInteraction(clientX, clientY) {
-  mouse.x = (clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(clientY / window.innerHeight) * 2 + 1;
+function handleInteraction(x, y) {
+  mouse.x = (x / window.innerWidth) * 2 - 1;
+  mouse.y = -(y / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(hotspots);
