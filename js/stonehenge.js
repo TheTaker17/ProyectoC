@@ -46,7 +46,7 @@ const iconTexture = textureLoader.load("img/ojo.png");
 const spriteMaterial = new THREE.SpriteMaterial({
   map: iconTexture,
   transparent: true,
-  depthTest: false // 👈 asegura que siempre esté visible delante
+  depthTest: false // siempre visible
 });
 
 const hotspot = new THREE.Sprite(spriteMaterial);
@@ -54,14 +54,23 @@ hotspot.scale.set(1.5, 1.5, 1.5);
 hotspot.position.set(5, 3, 0);
 scene.add(hotspot);
 
-// Añadimos el sprite a la lista de clickeables
+// Añadir a lista de clickeables
 clickableObjects.push(hotspot);
+
+
+//Fondo Modelo
+const geometry = new THREE.SphereGeometry(500, 60, 40);
+geometry.scale(-1, 1, 1); // Invertir normales para que se vea desde dentro
+const texture = new THREE.TextureLoader().load('img/stonehenge-blur.png');
+const material = new THREE.MeshBasicMaterial({ map: texture });
+const sky = new THREE.Mesh(geometry, material);
+scene.add(sky);
+
 
 // 🔹 Detectar hover en PC
 window.addEventListener("mousemove", (event) => {
-  const coords = getNormalizedCoords(event.clientX, event.clientY);
-  mouse.x = coords.x;
-  mouse.y = coords.y;
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(clickableObjects);
@@ -71,9 +80,8 @@ window.addEventListener("mousemove", (event) => {
 
 // 🔹 Función común para clicks y toques
 function handleInteraction(x, y) {
-  const coords = getNormalizedCoords(x, y);
-  mouse.x = coords.x;
-  mouse.y = coords.y;
+  mouse.x = (x / window.innerWidth) * 2 - 1;
+  mouse.y = -(y / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(clickableObjects);
@@ -85,15 +93,6 @@ function handleInteraction(x, y) {
       "img/stonehenge.jpeg"
     );
   }
-}
-
-// Normalizar coordenadas
-function getNormalizedCoords(x, y) {
-  const rect = renderer.domElement.getBoundingClientRect();
-  return {
-    x: ((x - rect.left) / rect.width) * 2 - 1,
-    y: -((y - rect.top) / rect.height) * 2 + 1
-  };
 }
 
 // Evento click (PC)
@@ -108,7 +107,7 @@ window.addEventListener("touchstart", (event) => {
 });
 
 // ================= LOADER GLOBAL (solo modelo) =================
-let totalToLoad = 1; 
+let totalToLoad = 1;
 let loaded = 0;
 let loaderClosed = false;
 
@@ -139,7 +138,7 @@ loader.load(
   (error) => console.error("Error cargando el modelo:", error)
 );
 
-// ================= POPUP =================
+// Popup
 function showPopup(title, description, img) {
   const popup = document.getElementById("popup");
   const popupImg = document.getElementById("popup-img");
@@ -161,7 +160,7 @@ function closePopup() {
   setTimeout(() => (popup.style.display = "none"), 300);
 }
 
-// ================= Responsivo =================
+// Responsivo
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -175,3 +174,4 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
