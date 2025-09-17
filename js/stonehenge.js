@@ -2,10 +2,10 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js"; 
 
-// ================= ESCENA =================
+// Escena
 const scene = new THREE.Scene();
 
-// ================= CÁMARA =================
+// Cámara
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
@@ -14,7 +14,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(5, 3, 12);
 
-// ================= RENDER =================
+// Renderizador
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setClearColor(0x000000, 0); 
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -22,100 +22,92 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.style.margin = "0";
 document.body.appendChild(renderer.domElement);
 
-// ================= LUCES =================
+// Luces
 scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 1.2));
 const dirLight = new THREE.DirectionalLight(0xffffff, 1);
 dirLight.position.set(5, 10, 7);
 scene.add(dirLight);
 
-// ================= CONTROLES =================
+// Controles
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
-// ================= RAYCASTER =================
+// Raycaster + mouse
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-// ================= HOTSPOTS =================
-const clickableObjects = [];
+// Lista de hotspots
 const hotspots = [];
 
-// Función para crear un hotspot
-function createHotspot(position, title, description, img) {
+// Crear un hotspot (sprite) con datos
+function createHotspot(x, y, z, title, description, img) {
   const textureLoader = new THREE.TextureLoader();
   const iconTexture = textureLoader.load("img/ojo.png");
 
   const spriteMaterial = new THREE.SpriteMaterial({
     map: iconTexture,
     transparent: true,
-    depthTest: false // siempre visible
+    depthTest: false
   });
 
-  const hotspot = new THREE.Sprite(spriteMaterial);
-  hotspot.scale.set(1.5, 1.5, 1.5);
-  hotspot.position.copy(position);
+  const sprite = new THREE.Sprite(spriteMaterial);
+  sprite.scale.set(1.5, 1.5, 1.5);
+  sprite.position.set(x, y, z);
 
-  // Guardamos info dentro del objeto
-  hotspot.userData = { title, description, img };
+  // Guardar info para el popup
+  sprite.userData = { title, description, img };
 
-  scene.add(hotspot);
-  clickableObjects.push(hotspot);
-  hotspots.push(hotspot);
+  scene.add(sprite);
+  hotspots.push(sprite);
 }
 
-// Ejemplos de hotspots
-createHotspot(
-  new THREE.Vector3(5, 3, 0),
-  "Stonehenge",
+// Ejemplo: varios hotspots
+createHotspot(5, 3, 0, "Stonehenge",
   "Monumento megalítico en Inglaterra, construido entre el 3000 y el 2000 a.C.",
   "img/stonehenge.jpeg"
 );
 
-createHotspot(
-  new THREE.Vector3(-3, 2, 2),
-  "Pirámide de Giza",
-  "La pirámide más antigua y grande de Egipto.",
-  "img/piramide.jpeg"
+createHotspot(2, 1, -3, "Otro punto",
+  "Descripción de ejemplo para otro hotspot.",
+  "img/stonehenge.jpeg"
 );
 
-createHotspot(
-  new THREE.Vector3(0, 4, -5),
-  "Machu Picchu",
-  "Antigua ciudad inca ubicada en los Andes peruanos.",
-  "img/machu.jpeg"
+createHotspot(-6, 2, 0, "Stonehenge",
+  "Monumento megalítico en Inglaterra, construido entre el 3000 y el 2000 a.C.",
+  "img/stonehenge.jpeg"
 );
 
-// ================= FONDO ESFÉRICO =================
+// Fondo Modelo
 const geometry = new THREE.SphereGeometry(500, 60, 40);
-geometry.scale(-1, 1, 1); // Invertir normales para ver desde dentro
+geometry.scale(-1, 1, 1);
 const texture = new THREE.TextureLoader().load("img/stonehenge-blur.png");
 const material = new THREE.MeshBasicMaterial({ map: texture });
 const sky = new THREE.Mesh(geometry, material);
 scene.add(sky);
 
 // ================= INTERACCIÓN =================
-// Hover (PC)
+// Hover con raycaster
 window.addEventListener("mousemove", (event) => {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(clickableObjects);
+  const intersects = raycaster.intersectObjects(hotspots);
 
   document.body.style.cursor = intersects.length > 0 ? "pointer" : "default";
 });
 
-// Click o toque
-function handleInteraction(x, y) {
-  mouse.x = (x / window.innerWidth) * 2 - 1;
-  mouse.y = -(y / window.innerHeight) * 2 + 1;
+// Click / Touch
+function handleInteraction(clientX, clientY) {
+  mouse.x = (clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(clickableObjects);
+  const intersects = raycaster.intersectObjects(hotspots);
 
   if (intersects.length > 0) {
-    const hotspotData = intersects[0].object.userData;
-    showPopup(hotspotData.title, hotspotData.description, hotspotData.img);
+    const { title, description, img } = intersects[0].object.userData;
+    showPopup(title, description, img);
   }
 }
 
@@ -142,10 +134,10 @@ function checkAllLoaded() {
   }
 }
 
-// ================= CARGA MODELO =================
+// Cargar modelo GLB/GLTF
 const loader = new GLTFLoader();
 loader.load(
-  "modelos/stonehenge.glb", 
+  "modelos/stonehenge.glb",
   (gltf) => {
     const model = gltf.scene;
     model.scale.set(0.7, 0.7, 0.7);
@@ -189,7 +181,7 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// ================= ANIMACIÓN =================
+// ================= LOOP =================
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
