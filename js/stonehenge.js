@@ -32,12 +32,13 @@ scene.add(dirLight);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
-// Raycaster y mouse
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-// Lista de objetos interactivos
-const clickableObjects = [];
+// Fondo Modelo
+const geometry = new THREE.SphereGeometry(500, 60, 40);
+geometry.scale(-1, 1, 1); // Invertir normales para que se vea desde dentro
+const texture = new THREE.TextureLoader().load('img/stonehenge-blur.png');
+const material = new THREE.MeshBasicMaterial({ map: texture });
+const sky = new THREE.Mesh(geometry, material);
+scene.add(sky);
 
 // Hotspot como Sprite
 const textureLoader = new THREE.TextureLoader();
@@ -54,56 +55,49 @@ hotspot.scale.set(1.5, 1.5, 1.5);
 hotspot.position.set(5, 3, 0);
 scene.add(hotspot);
 
-// Añadir a lista de clickeables
-clickableObjects.push(hotspot);
+// ================= CLICK BASADO EN PANTALLA =================
 
+function getScreenPosition(obj, camera) {
+  const vector = new THREE.Vector3();
+  obj.getWorldPosition(vector);
+  vector.project(camera); // pasa a NDC
+  return {
+    x: (vector.x * 0.5 + 0.5) * window.innerWidth,
+    y: (-(vector.y * 0.5) + 0.5) * window.innerHeight
+  };
+}
 
-//Fondo Modelo
-const geometry = new THREE.SphereGeometry(500, 60, 40);
-geometry.scale(-1, 1, 1); // Invertir normales para que se vea desde dentro
-const texture = new THREE.TextureLoader().load('img/stonehenge-blur.png');
-const material = new THREE.MeshBasicMaterial({ map: texture });
-const sky = new THREE.Mesh(geometry, material);
-scene.add(sky);
+// Evento click (PC)
+window.addEventListener("click", (event) => {
+  const pos = getScreenPosition(hotspot, camera);
+  const dx = event.clientX - pos.x;
+  const dy = event.clientY - pos.y;
 
-
-// 🔹 Detectar hover en PC
-window.addEventListener("mousemove", (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(clickableObjects);
-
-  document.body.style.cursor = intersects.length > 0 ? "pointer" : "default";
-});
-
-// 🔹 Función común para clicks y toques
-function handleInteraction(x, y) {
-  mouse.x = (x / window.innerWidth) * 2 - 1;
-  mouse.y = -(y / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(clickableObjects);
-
-  if (intersects.length > 0) {
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist < 40) { // radio clickeable
     showPopup(
       "Stonehenge", 
       "Monumento megalítico en Inglaterra, construido entre el 3000 y el 2000 a.C.",
       "img/stonehenge.jpeg"
     );
   }
-}
-
-// Evento click (PC)
-window.addEventListener("click", (event) => {
-  handleInteraction(event.clientX, event.clientY);
 });
 
 // Evento touch (Móviles)
 window.addEventListener("touchstart", (event) => {
   const touch = event.touches[0];
-  handleInteraction(touch.clientX, touch.clientY);
+  const pos = getScreenPosition(hotspot, camera);
+  const dx = touch.clientX - pos.x;
+  const dy = touch.clientY - pos.y;
+
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist < 40) {
+    showPopup(
+      "Stonehenge", 
+      "Monumento megalítico en Inglaterra, construido entre el 3000 y el 2000 a.C.",
+      "img/stonehenge.jpeg"
+    );
+  }
 });
 
 // ================= LOADER GLOBAL (solo modelo) =================
@@ -174,4 +168,3 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
-
