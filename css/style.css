@@ -26,7 +26,7 @@ body {
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 1020; /* siempre encima */
+  z-index: 9999; /* siempre encima */
 }
 
 .nav-bgcolor {

@@ -5,8 +5,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 /* ------------------- Escena ------------------- */
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
-camera.position.set(0, 7, 12);
-camera.rotation.set(0,90,0);
+camera.position.set(15, 10, 12);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -22,7 +21,7 @@ dirLight.position.set(5, 10, 5);
 scene.add(dirLight);
 
 /* ------------------- Sky ------------------- */
-const skyGeo = new THREE.SphereGeometry(500, 60, 40);
+const skyGeo = new THREE.SphereGeometry(200, 40, 20);
 skyGeo.scale(-1, 1, 1);
 const skyTex = new THREE.TextureLoader().load("img/stonehenge-blur.png");
 const skyMat = new THREE.MeshBasicMaterial({ map: skyTex });
@@ -31,7 +30,7 @@ scene.add(sky);
 
 /* ------------------- GLTF loader ------------------- */
 const gltfLoader = new GLTFLoader();
-gltfLoader.load("modelos/stonehenge.glb",
+gltfLoader.load("modelos/.glb",
   (gltf) => {
     const model = gltf.scene;
     model.scale.set(0.7,0.7,0.7);
