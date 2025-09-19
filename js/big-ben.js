@@ -5,8 +5,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 /* ------------------- Escena ------------------- */
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
-camera.position.set(0, 7, 12);
-camera.rotation.set(0,90,0);
+camera.position.set(12, 5, 10);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -22,24 +21,40 @@ dirLight.position.set(5, 10, 5);
 scene.add(dirLight);
 
 /* ------------------- Sky ------------------- */
-const skyGeo = new THREE.SphereGeometry(500, 60, 40);
+const skyGeo = new THREE.SphereGeometry(200, 40, 20);
 skyGeo.scale(-1, 1, 1);
-const skyTex = new THREE.TextureLoader().load("img/stonehenge-blur.png");
+const skyTex = new THREE.TextureLoader().load("img/big-ben-blur.png");
 const skyMat = new THREE.MeshBasicMaterial({ map: skyTex });
 const sky = new THREE.Mesh(skyGeo, skyMat);
+sky.rotation.y = Math.PI / 0.1;
+sky.rotation.z = Math.PI / 0.1;
 scene.add(sky);
 
 /* ------------------- GLTF loader ------------------- */
 const gltfLoader = new GLTFLoader();
-gltfLoader.load("modelos/.glb",
+const loaderDiv = document.getElementById("global-loader");
+
+gltfLoader.load("modelos/big-ben.glb",
   (gltf) => {
     const model = gltf.scene;
-    model.scale.set(0.7,0.7,0.7);
+    model.scale.set(0.4,0.4,0.4);
+    model.position.set(-2,-13,0);
+    model.rotation.set(0,95,0);
     scene.add(model);
+
+    // 🔹 Ocultar loader cuando termina
+    loaderDiv.style.display = "none";
   },
-  undefined,
+  (xhr) => {
+    // 🔹 Progreso opcional (0–100%)
+    if (xhr.total) {
+      const percent = (xhr.loaded / xhr.total) * 100;
+      loaderDiv.querySelector("p").innerText = `Cargando experiencia... ${percent.toFixed(0)}%`;
+    }
+  },
   (err) => console.error(err)
 );
+
 
 /* ---------- referencia al popup del HTML ---------- */
 const popup = document.getElementById("popup");
@@ -122,9 +137,9 @@ document.getElementById("popup-close").addEventListener("click", () => {
 
 
 /* ---------- Hotspots ---------- */
-createDOMHotspot(5, 0, 0, "Stonehenge", "Monumento megalítico en Inglaterra.", "img/stonehenge.jpeg", { sizePx: 150, scaleWithDistance: true });
-createDOMHotspot(2, 0, 0, "Punto B", "Otra info", "img/stonehenge.jpeg", { sizePx: 56 });
-createDOMHotspot(-6, 0, 0, "Punto C", "Más info", "img/stonehenge.jpeg", { sizePx: 80 });
+createDOMHotspot(5, 0, 0, "Punto A", "Info.", "img/.jpeg", { sizePx: 150, scaleWithDistance: true });
+createDOMHotspot(2, 0, 0, "Punto B", "Otra info", "img/.jpeg", { sizePx: 56 });
+createDOMHotspot(-15, 0, 0, "Punto C", "Más info", "img/.jpeg", { sizePx: 80 });
 
 /* ---------- resize ---------- */
 window.addEventListener("resize", () => {

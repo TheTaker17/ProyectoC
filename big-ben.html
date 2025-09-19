@@ -29,19 +29,19 @@
         </div>
     </nav>
 
-  <div class="container text-center py-5" id="main-content">
-    <h1 class="mb-4">Big Ben</h1> 
-    <div class="scene-container"></div>
-  </div>
-
+    <!-- Loader único -->
+   <div id="global-loader">
+    <div class="spinner-border text-light" role="status"></div>
+    <p class="mt-2">Cargando experiencia...</p>
+  </div> 
+  
  <!-- Popup -->
-<div id="popup" class="card shadow position-fixed top-50 start-50 translate-middle"
-     style="display:none; z-index:1050; max-width: 400px; width: 90%;">
+<div id="popup" class="popup card shadow bg-dark text-white">
   <img id="popup-img" class="card-img-top" src="" alt="" style="display:none;">
   <div class="card-body text-center">
     <h5 id="popup-title" class="card-title mb-3"></h5>
     <p id="popup-desc" class="card-text"></p>
-    <button id="popup-close" class="btn btn-warning mt-3">Cerrar</button>
+    <button id="popup-close" class="btn my-btn-purple mt-3 text-white">Cerrar</button>
   </div>
 </div>
 

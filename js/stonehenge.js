@@ -5,7 +5,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 /* ------------------- Escena ------------------- */
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2000);
-camera.position.set(15, 10, 12);
+camera.position.set(12, 7, 10);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -26,19 +26,34 @@ skyGeo.scale(-1, 1, 1);
 const skyTex = new THREE.TextureLoader().load("img/stonehenge-blur.png");
 const skyMat = new THREE.MeshBasicMaterial({ map: skyTex });
 const sky = new THREE.Mesh(skyGeo, skyMat);
+sky.rotation.y = Math.PI / 0.7;
+sky.rotation.y = Math.PI / 0.8; // giro del fondo
 scene.add(sky);
 
 /* ------------------- GLTF loader ------------------- */
 const gltfLoader = new GLTFLoader();
-gltfLoader.load("modelos/.glb",
+const loaderDiv = document.getElementById("global-loader");
+
+gltfLoader.load("modelos/stonehenge.glb",
   (gltf) => {
     const model = gltf.scene;
-    model.scale.set(0.7,0.7,0.7);
+    model.scale.set(0.75,0.75,0.75);
+    model.position.set(-5,0,0)
     scene.add(model);
+
+    // 🔹 Ocultar loader cuando termina
+    loaderDiv.style.display = "none";
   },
-  undefined,
+  (xhr) => {
+    // 🔹 Progreso opcional (0–100%)
+    if (xhr.total) {
+      const percent = (xhr.loaded / xhr.total) * 100;
+      loaderDiv.querySelector("p").innerText = `Cargando experiencia... ${percent.toFixed(0)}%`;
+    }
+  },
   (err) => console.error(err)
 );
+
 
 /* ---------- referencia al popup del HTML ---------- */
 const popup = document.getElementById("popup");
@@ -131,6 +146,8 @@ window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
 });
+
+
 
 /* ---------- animación ---------- */
 function animate() {
