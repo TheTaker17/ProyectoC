@@ -29,22 +29,26 @@
         </div>
     </nav>
 
-<!-- Loader único -->
-  <div id="global-loader">
+      <div class="container text-center py-5" id="main-content">
+    <h1 class="mb-4">Stonehenge</h1> 
+    <div class="scene-container"></div>
+  </div>
+
+<!-- Loader único 
+   <div id="global-loader">
     <div class="spinner-border text-light" role="status"></div>
     <p class="mt-2">Cargando experiencia...</p>
-  </div>
+  </div> -->
 
-  <div id="popup" class="popup card shadow-lg text-white bg-dark">
-  <img id="popup-img" class="card-img-top" src="img/stonehenge.jpeg" alt="">
-  <div class="card-body">
-    <h5 id="popup-title" class="card-title"></h5>
+  <!-- Popup con animación + Bootstrap -->
+<div id="popup" class="popup card shadow bg-dark text-white">
+  <img id="popup-img" class="card-img-top" src="" alt="" style="display:none;">
+  <div class="card-body text-center">
+    <h5 id="popup-title" class="card-title mb-3"></h5>
     <p id="popup-desc" class="card-text"></p>
-    <!-- 👇 Cierra directo desde HTML -->
-    <button class="btn btn-outline-light btn-sm" onclick="document.getElementById('popup').style.display='none'">Cerrar</button>
+    <button id="popup-close" class="btn my-btn-purple mt-3 text-white">Cerrar</button>
   </div>
 </div>
-
     <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

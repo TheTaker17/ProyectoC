@@ -129,22 +129,51 @@ body {
   left: 50%;
   transform: translate(-50%, -50%) scale(0.8);
   opacity: 0;
-  transition: all 1s ease-in-out;
-  max-width: 320px;
-  z-index: 2000;
+  transition: all 0.4s ease-in-out;
+  max-width: 500px;
+  width: 90%;
+  z-index: 5000;
   border-radius: 12px;
   overflow: hidden;
 }
 
-/* Cuando está activo */
 .popup.show {
+  display: block;
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* Imagen */
 .popup img {
   max-height: 180px;
   object-fit: cover;
 }
 
+.my-btn-purple{
+  background-color: #6f42c1;
+}
+
+.dom-hotspot {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+      z-index: 4000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: transform .12s ease;
+    }
+    .dom-hotspot .dot {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(#ffcc66, #ff9f1a);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.25);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .dom-hotspot .eye {
+      width: 30px; height: 30px; background: url('img/ojo.png') center/contain no-repeat;
+      pointer-events: none;
+    }
+    .dom-hotspot:hover { transform: translate(-50%, -50%) scale(1.06); }
