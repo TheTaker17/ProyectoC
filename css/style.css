@@ -1,6 +1,6 @@
 /* ====== GENERAL ====== */
 body {
-  background: #000000;
+  background: linear-gradient(to left, #080920,#4444b9);
   color: rgb(255, 255, 255);
   font-family: 'Montserrat', sans-serif;
   margin: 0;
@@ -30,7 +30,7 @@ body {
 }
 
 .nav-bgcolor {
-  background-color: #000000;        
+  background-color: #30095354;        
 }
 
 .navbar-collapse {
@@ -44,7 +44,7 @@ body {
   padding: 15px 0;
   color: #fff;
   text-decoration: none;
-  border: 1px solid #383838;
+  border: 3px solid #500ad333;
   transition: all 0.3s ease;
 }
 
@@ -52,12 +52,14 @@ body {
 .nav-item-custom:hover {
   background-color: #ffffff;
   color: #000000 !important;
+  border: 3px rgba(255, 255, 255, 0);
 }
 
 .nav-item-custom.active,
 .nav-item-custom:focus {
   background-color: #fffffffb;
   color: #000000 !important;
+  border: 3px white;
 }
 
 .custom-toggler-icon {
@@ -90,15 +92,24 @@ body {
 
 .card-img-top {
   border-radius: 10px;
+  width: 95%;
   height: 180px;
   object-fit: cover;
 }
 
+.btn-card{
+  background-color: white;
+}
+
+.btn-card:hover{
+  background-color: #1b1b63fd;
+  color: white;
+}
 /* ====== CANVAS DE THREE.JS ====== */
 #scene-container {
   width: 100%;
   height: 100vh; /* ocupa toda la altura de pantalla */
-  background: #000000;
+  background: linear-gradient(90deg, #101244, #4444b9);
   display: block;
   z-index: 1500;
 }
@@ -173,7 +184,7 @@ body {
       display:flex; align-items:center; justify-content:center;
     }
     .dom-hotspot .eye {
-      width: 30px; height: 30px; background: url('img/ojo.png') center/contain no-repeat;
+      width: 30px; height: 30px;
       pointer-events: none;
     }
     .dom-hotspot:hover { transform: translate(-50%, -50%) scale(1.06); }
