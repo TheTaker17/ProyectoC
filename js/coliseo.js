@@ -34,7 +34,7 @@ scene.add(sky);
 const gltfLoader = new GLTFLoader();
 const loaderDiv = document.getElementById("global-loader");
 
-gltfLoader.load("modelos/coliseo-romano.glb",
+gltfLoader.load("modelos/coliseo.glb",
   (gltf) => {
     const model = gltf.scene;
     model.scale.set(0.17,0.17,0.17);

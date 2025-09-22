@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     content.classList.add("loaded");
   }, 50);
 
-  // fade-out al cambiar de página
-  document.querySelectorAll("a.link").forEach(link => {
+  // fade-out al cambiar de página SOLO para enlaces con clase fade-link
+  document.querySelectorAll("a.fade-link").forEach(link => {
     link.addEventListener("click", function(e){
       e.preventDefault();
       content.classList.remove("loaded");
