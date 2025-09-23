@@ -50,15 +50,15 @@ body {
 
 /* Hover y active */
 .nav-item-custom:hover {
-  background-color: #ffffff;
-  color: #000000 !important;
+  background-color: #c9c9c9c5;
+  color: #ffffff !important;
   border: 3px rgba(255, 255, 255, 0);
 }
 
 .nav-item-custom.active,
 .nav-item-custom:focus {
-  background-color: #fffffffb;
-  color: #000000 !important;
+  background-color: #c9c9c9c5;
+  color: #ffffff !important;
   border: 3px white;
 }
 
@@ -75,6 +75,10 @@ body {
   }
   .custom-config {
     height: auto; /* quitar altura fija en móvil */
+  }
+  .nav-item-custom{
+    background: linear-gradient(to left, #080920,#4444b9);
+    color: white;
   }
 }
 
@@ -109,8 +113,6 @@ body {
 #scene-container {
   width: 100%;
   height: 100vh; /* ocupa toda la altura de pantalla */
-  background: linear-gradient(90deg, #101244, #4444b9);
-  display: block;
   z-index: 1500;
 }
 
@@ -155,17 +157,28 @@ body {
 }
 
 .popup img {
-  max-height: 180px;
+  width:100%;
   object-fit: cover;
+  padding: 8px;
+}
+
+.bg-card{
+  background:radial-gradient( #dd870f,#be7309) ;
 }
 
 .my-btn-purple{
-  background-color: #6f42c1;
+  background-color: #070579e3;
+  color: white;
+}
+
+.my-btn-purple:hover{
+  background-color: rgb(116, 115, 115);
+  color: #ffffff;
 }
 
 .dom-hotspot {
       position: absolute;
-      transform: translate(-50%, -50%);
+      transform: translate(-40%, -40%);
       pointer-events: auto;
       z-index: 4000;
       display: flex;

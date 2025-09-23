@@ -135,9 +135,16 @@ document.getElementById("popup-close").addEventListener("click", () => {
 
 
 /* ---------- Hotspots ---------- */
-createDOMHotspot(5, 0, 0, "Punto A", "Info.", "img/.jpeg", { sizePx: 150, scaleWithDistance: true });
-createDOMHotspot(2, 0, 0, "Punto B", "Otra info", "img/.jpeg", { sizePx: 56 });
-createDOMHotspot(-6, 0, 0, "Punto C", "Más info", "img/.jpeg", { sizePx: 80 });
+createDOMHotspot(0.5, 10, 0, "Cómo se desarrolló:", "Ubicada en Paris, Francia, fue construida entre 1887 y 1889 con motivo de la Exposición Universal de París, celebrada para conmemorar el centenario de la Revolución Francesa. Su levantamiento se completó en poco más de dos años, en un tiempo récord para su época.", 
+"img/.jpeg", { sizePx: 80 });
+createDOMHotspot(-6, 6, 0, "Autor", "Fue diseñada por el ingeniero Gustave Eiffel junto con los ingenieros Maurice Koechlin y Émile Nouguier, además del arquitecto Stephen Sauvestre, encargado de su aspecto estético.", 
+"img/.jpeg", { sizePx: 80});
+createDOMHotspot(4, 1, 0, "Definición artística", "Se considera un icono del arte y la arquitectura del hierro del siglo XIX, representando el triunfo de la ingeniería moderna y la estética industrial.", 
+"img/.jpeg", { sizePx: 80 });
+createDOMHotspot(-11, -4, 0, "Técnica", "La torre está formada por más de 18.000 piezas de hierro forjado unidas con 2,5 millones de remaches. Su diseño combina funcionalidad con ligereza visual, logrando una estructura sólida pero elegante.", 
+"img/.jpeg", { sizePx: 80 });
+createDOMHotspot(7, -4, 0, "Datos relevantes", "Al inaugurarse fue la construcción más alta del mundo con 300 metros, y aunque al inicio fue criticada, hoy es uno de los monumentos más visitados del planeta.", 
+"img/.jpeg", { sizePx: 80 });
 
 /* ---------- resize ---------- */
 window.addEventListener("resize", () => {
