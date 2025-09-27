@@ -136,15 +136,15 @@ document.getElementById("popup-close").addEventListener("click", () => {
 
 /* ---------- Hotspots ---------- */
 createDOMHotspot(5, 8, 0, "Cómo se desarrolló", "Chichén Itzá ubicado en la península de Yucatán de Mexico, fue una ciudad maya que alcanzó su esplendor entre los siglos IX y XII. Su construcción combinó influencias mayas y toltecas.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/chichen-itza/chichen-itza-1.jpg", { sizePx: 80 });
 createDOMHotspot(12, 2, 0, "Autor", "Fue levantada por los mayas, aunque con posteriores aportes de culturas mesoamericanas; no se atribuye a un autor individual.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/chichen-itza/chichen-itza-2.jpg", { sizePx: 80 });
 createDOMHotspot(-25, 4, 0, "Definición artística", "Representa la arquitectura precolombina mesoamericana, con fuerte simbolismo religioso y astronómico en sus formas y proporciones.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/chichen-itza/chichen-itza-3.jpg", { sizePx: 80 });
 createDOMHotspot(-100, -55, 0, "Técnica", "La pirámide de Kukulkán (“El Castillo”) está formada por nueve plataformas y cuatro escalinatas, con 365 escalones en total, representando el calendario solar.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/chichen-itza/chichen-itza-4.jpg", { sizePx: 80 });
 createDOMHotspot(6, -6, 0, "Datos relevantes", "Durante los equinoccios, la sombra proyectada en la escalinata crea la ilusión de una serpiente descendiendo, fenómeno asociado al dios Kukulkán.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/chichen-itza/chichen-itza-5.jpg", { sizePx: 80 });
 
 /* ---------- resize ---------- */
 window.addEventListener("resize", () => {

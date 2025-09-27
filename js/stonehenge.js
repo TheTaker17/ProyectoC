@@ -137,15 +137,15 @@ document.getElementById("popup-close").addEventListener("click", () => {
 
 /* ---------- Hotspots ---------- */
 createDOMHotspot(-20, 1, 0, "Cómo se desarrolló", "Stonehenge o en español “circulo de piedras“ ubicado 13 kilómetros al norte de la ciudad de Salisbury en Renido Unido, fue construido en varias fases entre el 3000 y 2000 a.C., en la llanura de Salisbury. Se cree que implicó complejas tareas de transporte y alineación de piedras enormes.", 
-"img/stonehenge.jpeg", { sizePx: 80,});
+"img/cards/stonehenge/stonehenge-1.jpg", { sizePx: 80,});
 createDOMHotspot(1, -6, 0, "Autor", "No se conoce un autor específico, ya que fue obra de distintas comunidades prehistóricas que transmitieron conocimientos de generación en generación.", 
-"img/stonehenge.jpeg", { sizePx: 80 });
+"img/cards/stonehenge/stonehenge-2.jpg", { sizePx: 80 });
 createDOMHotspot(5, 5, 0, "Definición artística", "Se considera un ejemplo de arquitectura megalítica ceremonial, donde el arte se mezcla con la espiritualidad y la astronomía.", 
-"img/stonehenge.jpeg", { sizePx: 80 });
+"img/cards/stonehenge/stonehenge-3.jpg", { sizePx: 80 });
 createDOMHotspot(9, 2, 0, "Técnica", "Consiste en círculos concéntricos de piedras gigantes (sarsens y bluestones), algunas de más de 25 toneladas, colocadas mediante sistemas de encaje y alineadas con fenómenos solares.", 
-"img/stonehenge.jpeg", { sizePx: 80 });
+"img/cards/stonehenge/stonehenge-4.jpeg", { sizePx: 80 });
 createDOMHotspot(-65, -30, 0, "Datos relevantes", "Se piensa que fue un centro de rituales religiosos y observaciones astronómicas, en particular relacionadas con los solsticios y equinoccios.", 
-"img/stonehenge.jpeg", { sizePx: 80 });
+"img/cards/stonehenge/stonehenge-5.jpg", { sizePx: 80 });
 
 /* ---------- resize ---------- */
 window.addEventListener("resize", () => {

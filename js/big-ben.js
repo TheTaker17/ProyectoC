@@ -138,15 +138,15 @@ document.getElementById("popup-close").addEventListener("click", () => {
 
 /* ---------- Hotspots ---------- */
 createDOMHotspot(1, 8, 0, "Cómo se desarrolló", "La torre del reloj del Palacio de Westminster (Londres, Reino Unido))se completó en 1859 como parte de la reconstrucción del Palacio de Westminster tras un incendio en 1834. Su construcción duró 13 años.", 
-  "img/.jpeg", { sizePx: 90 });
+"img/cards/big-ben/big-ben-1.jpg", { sizePx: 90 });
 createDOMHotspot(-18, 4, 0, "Autor", "El diseño general fue obra del arquitecto Charles Barry, con detalles neogóticos aportados por Augustus Pugin. El mecanismo del reloj fue desarrollado por Edmund Beckett Denison y George Airy.", 
-"img/.jpeg", { sizePx: 90});
+"img/cards/big-ben/big-ben-2.jpg", { sizePx: 90});
 createDOMHotspot(4, 2, 0, "Definición artística", "Se enmarca en el estilo neogótico victoriano, caracterizado por su ornamentación, verticalidad y referencias a la Edad Media.", 
-"img/.jpeg", { sizePx: 90 });
+"img/cards/big-ben/big-ben-3.jpg", { sizePx: 90 });
 createDOMHotspot(-18,-8,0, "Técnica", "La torre mide 96 metros y combina piedra, ladrillo y hierro fundido. El reloj tiene cuatro esferas de siete metros de diámetro cada una, accionadas por un mecanismo de gran precisión.", 
-"img/.jpeg", { sizePx: 90 });
+"img/cards/big-ben/big-ben-4.png", { sizePx: 90 });
 createDOMHotspot(4,-4,0, "Datos relevantes", "“Big Ben” es en realidad el nombre de la gran campana de 13,7 toneladas, aunque con el tiempo se ha convertido en el apodo de toda la torre.", 
-"img/.jpeg", { sizePx: 90 });
+"img/cards/big-ben/big-ben-5.jpeg", { sizePx: 90 });
 
 
 /* ---------- resize ---------- */

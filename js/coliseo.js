@@ -138,15 +138,15 @@ document.getElementById("popup-close").addEventListener("click", () => {
 
 /* ---------- Hotspots ---------- */
 createDOMHotspot(9, 0, 0, "Autor", "Aunque no se conoce un único arquitecto, fue promovido por los emperadores de la dinastía Flavia y construido por arquitectos e ingenieros romanos anónimos.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/coliseo-romano/coliseo-romano-1.jpg", { sizePx: 80 });
 createDOMHotspot(5, 3.5, 0, "Técnica", "Utilizó materiales como travertino, ladrillo y hormigón romano. El edificio emplea un sistema de arcos y bóvedas que permite gran resistencia y distribución del peso.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/coliseo-romano/coliseo-romano-2.jpg", { sizePx: 80 });
 createDOMHotspot(-1, -10, 0, "Datos relevantes", "Tenía capacidad para más de 50.000 espectadores y contaba con un complejo sistema de pasadizos, gradas y trampillas para organizar espectáculos.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/coliseo-romano/coliseo-romano-3.jpg", { sizePx: 80 });
 createDOMHotspot(-65, -20, 0, "Definición artística", "Es un símbolo de la arquitectura clásica romana, uniendo monumentalidad con funcionalidad en un espacio diseñado para albergar multitudes.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/coliseo-romano/coliseo-romano-4.jpg", { sizePx: 80 });
 createDOMHotspot(-20, 2, 0, "Cómo se desarrolló", "El Coliseo se construyó entre los años 70 y 80 d.C. en Roma, Italia, bajo los emperadores Vespasiano y Tito, como un anfiteatro para espectáculos públicos y combates de gladiadores.", 
-"img/.jpeg", { sizePx: 80 });
+"img/cards/coliseo-romano/coliseo-romano-5.jpg", { sizePx: 80 });
 
 /* ---------- resize ---------- */
 window.addEventListener("resize", () => {
