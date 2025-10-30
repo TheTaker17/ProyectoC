@@ -34,6 +34,33 @@
     <div class="spinner-border text-light" role="status"></div>
     <p class="mt-2">Cargando experiencia...</p>
   </div> 
+
+  <!-- Guía de controles adaptativa -->
+<div id="controls-guide" class="card bg-dark text-white shadow-sm position-fixed bottom-0 end-0 m-3 p-3 small opacity-90">
+  <button id="close-guide" class="btn-close btn-close-white position-absolute top-0 end-0 m-2" aria-label="Cerrar"></button>
+  <h6 class="text-uppercase fw-bold mb-2">Controles</h6>
+
+  <!-- Versión escritorio -->
+  <ul class="list-unstyled mb-0 desktop-controls">
+    <li>🖱️ <strong>Click y arrastra:</strong> Rotar el modelo</li>
+    <li>🔍 <strong>Rueda del ratón:</strong> Acercar/Alejar</li>
+    <li>↔️ <strong>Ctrl + arrastrar:</strong> Mover vista</li>
+    <li>⚪ <strong>Click sobre las esferas:</strong> Ver información</li>
+  </ul>
+
+  <!-- Versión móvil -->
+  <ul class="list-unstyled mb-0 mobile-controls">
+    <li>👆 <strong>Arrastra con un dedo:</strong> Rotar el modelo</li>
+    <li>🤏 <strong>Pellizca:</strong> Acercar/Alejar</li>
+    <li>✋ <strong>Arrastra con dos dedos:</strong> Mover vista</li>
+    <li>⚪ <strong>Toca las esferas:</strong> Ver información</li>
+  </ul>
+</div>
+
+<!-- Botón para volver a mostrar la guía -->
+<button id="toggle-guide" class="btn btn-sm btn-outline-light position-fixed bottom-0 start-0 m-3 rounded-circle">
+  ❔
+</button>
   
  <!-- Popup -->
 <div id="popup" class="popup card shadow bg-card text-white">
@@ -57,6 +84,28 @@
     }
   }
   </script>
+
+  <!-- Script Controles-->
+<script>
+  const guide = document.getElementById('controls-guide');
+  const closeBtn = document.getElementById('close-guide');
+  const toggleBtn = document.getElementById('toggle-guide');
+
+  // Cerrar la guía con la X
+  closeBtn.addEventListener('click', () => {
+    guide.classList.add('hidden');
+  });
+
+  // Volver a mostrarla con el botón ❔
+  toggleBtn.addEventListener('click', () => {
+    guide.classList.remove('hidden');
+  });
+
+  // Siempre visible al cargar
+  window.addEventListener('load', () => {
+    guide.classList.remove('hidden');
+  });
+</script>
 
   <script type="module" src="js/big-ben.js"></script>
 
