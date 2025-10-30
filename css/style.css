@@ -52,7 +52,7 @@ body {
 .nav-item-custom:hover {
   background-color: #c9c9c9c5;
   color: #ffffff !important;
-  border: 3px rgba(255, 255, 255, 0);
+  border: 3px solid #c9c9c9c5;
 }
 
 .nav-item-custom.active,
@@ -109,6 +109,58 @@ body {
   background-color: #1b1b63fd;
   color: white;
 }
+
+/* ====== ESTILOS DE LA GUÍA DE CONTROLES ===== */
+
+#controls-guide {
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  max-width: 260px;
+  z-index: 5000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0.95;
+  transform: translateY(0);
+}
+
+#controls-guide.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.desktop-controls {
+  display: block;
+}
+
+.mobile-controls {
+  display: none;
+}
+
+/* Botón X dentro del card */
+#close-guide {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+#close-guide:hover {
+  opacity: 1;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  #controls-guide {
+    font-size: 0.85rem;
+    max-width: 220px;
+  }
+
+  .desktop-controls {
+    display: none !important;
+  }
+
+  .mobile-controls {
+    display: block !important;
+  }
+}
+
 /* ====== CANVAS DE THREE.JS ====== */
 #scene-container {
   width: 100%;
